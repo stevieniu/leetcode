@@ -32,4 +32,51 @@ Constraints:
 """
 from typing import List
 class Solution:
+    # top down
     def minimumTimeRequired(self, jobs: List[int], k: int) -> int:
+        def dfs(i, curr_max_time):  # curr_max_time: max working time to finish i jobs
+            nonlocal ans
+            if curr_max_time > ans:
+                return ans
+            if i == len(jobs):
+                ans = min(ans, curr_max_time)
+                return ans
+
+            time_set = set()
+            for j in range(k):
+                if w[j] not in time_set:
+                    w[j] += jobs[i]
+                    ans = min(ans, dfs(i + 1, max(w[j], curr_max_time)))
+                    w[j] -= jobs[i]
+                    time_set.add(w[j])
+            return ans
+
+        ans = float('inf')
+        w = [0] * k
+        ans = dfs(0, 0)
+        return ans
+
+    # bottom up => TLE
+    def minimumTimeRequired(self, jobs: List[int], k: int) -> int:
+        DIMENION = 2 ** len(jobs)
+        dp = [[0] * DIMENION for _ in range(k + 1)]
+        time = [0] * DIMENION  # time to finish jobs of state
+        n = len(jobs)
+
+        for state in range(1 << n):
+            sum = 0
+            for i in range(n):
+                if (state >> i) & 1:
+                    sum += jobs[i]
+                time[state] = sum
+        for state in range(1, 1 << n):
+            dp[0][state] = float('inf')
+        dp[0][0] = 0
+        for i in range(1, k + 1):
+            for state in range(1 << n):
+                dp[i][state] = float('inf')
+                subset = state
+                while subset:
+                    dp[i][state] = min(dp[i][state], max(dp[i - 1][state - subset], time[subset]))
+                    subset = (subset - 1) & state
+        return dp[k][(1 << n) - 1]
