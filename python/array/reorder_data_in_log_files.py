@@ -1,5 +1,6 @@
 """
-937. https://leetcode.com/problems/reorder-data-in-log-files/description/?envType=study-plan-v2&envId=amazon-spring-23-high-frequency
+937. Reorder Data in Log Files
+https://leetcode.com/problems/reorder-data-in-log-files/description/?envType=study-plan-v2&envId=amazon-spring-23-high-frequency
 
 You are given an array of logs. Each log is a space-delimited string of words, where the first word is the identifier.
 
