@@ -1,23 +1,36 @@
-def partition(arr, val):
-    l, r = 0, len(arr) - 1
-    i = 0
-    while i <= r:
-        if arr[i] > val:
-            arr[i], arr[r] = arr[r], arr[i]
-            r -= 1
-        elif arr[i] < val:
-            arr[i], arr[l] = arr[l], arr[i]
-            l += 1
-            i += 1
-        else:
-            i += 1
-    return arr
+from typing import List
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        #     i.
+        # -4,-1,1,2     sum = -1 + 1 + 2 = 2 < 1 , min_diff = 1 -(2) = -1, 2
+        #       l
+        #         r
+        sum = 0
+        min_diff = float('inf')
+        ans = float('inf')
+        nums.sort()
+        for i in range(len(nums) - 2):
+            print(i)
+            if i > 0 and nums[i] == nums[i - 1]: continue
+            l, r = i + 1, len(nums) - 1
+            print(i, l, r)
+            while l < r:
+                sum = nums[i] + nums[l] + nums[r]
+                if sum == target:
+                    return sum
+                else:
+                    print(sum)
+                    if abs(sum - target) < min_diff:
+                        min_diff = abs(sum - target)
+                        ans = sum
+                    if sum < target:
+                        l += 1
+                        while l < r and nums[l] == nums[l - 1]:
+                            l += 1
+                    else:
+                        r -= 1
+            return ans
 
-arr = [3, 2, 1, 5, 3, 6, 4, 5, -1 , 0, 3, 3]
-val = 3
-print(partition(arr, val))
 
-#          l
-# 2, 1, 0, 3, 3, 3, 3, -1, 5 , 4, 6, 5
-#                      i
-#                       r
+nums = [-1,2,1,-4]
+Solution().threeSumClosest(nums, 1)
