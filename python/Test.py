@@ -1,41 +1,23 @@
-from typing import List
-import collections
-class Solution:
-    def validTree(self, n: int, edges: List[List[int]]) -> bool:
-        root = [i for i in range(n)]
-        rank = [1] * n
+def partition(arr, val):
+    l, r = 0, len(arr) - 1
+    i = 0
+    while i <= r:
+        if arr[i] > val:
+            arr[i], arr[r] = arr[r], arr[i]
+            r -= 1
+        elif arr[i] < val:
+            arr[i], arr[l] = arr[l], arr[i]
+            l += 1
+            i += 1
+        else:
+            i += 1
+    return arr
 
-        def find(x):
-            if x != root[x]:
-                root[x] = find(root[x])
-            return root[x]
+arr = [3, 2, 1, 5, 3, 6, 4, 5, -1 , 0, 3, 3]
+val = 3
+print(partition(arr, val))
 
-        def union(x, y):
-            rx, ry = find(x), find(y)
-            if rx == ry: return False
-            if rank[rx] > rank[ry]:
-                root[ry] = rx
-                rank[rx] += rank[ry]
-            else:
-                root[rx] = ry
-                rank[ry] += rank[rx]
-            return True
-
-        g = collections.defaultdict(list)
-        for u, v in edges:
-            g[u].append(v)
-            g[v].append(u)
-
-        cnt = n
-        for i in range(n):
-            for nei in g[i]:
-                print(nei, i)
-                if find(nei) == find(i): continue
-                union(nei, i)
-                cnt -= 1
-        print(root)
-        return cnt == 1
-
-n = 5
-edges = [[0,1],[1,2],[2,3],[1,3],[1,4]]
-Solution().validTree(n, edges)
+#          l
+# 2, 1, 0, 3, 3, 3, 3, -1, 5 , 4, 6, 5
+#                      i
+#                       r

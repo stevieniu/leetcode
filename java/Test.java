@@ -1,4 +1,6 @@
-package PACKAGE_NAME;
-
 public class Test {
+    public static void main(String[] args) {
+        int a = -1;
+        System.out.println(Integer.toBinaryString(a));
+    }
 }
