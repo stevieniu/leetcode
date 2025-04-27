@@ -42,3 +42,34 @@ class Solution:
             if num == 0:
                 q.append(num)
             arr[i] = q.popleft()
+
+
+    # Constant space
+    def duplicateZeros(self, arr: List[int]) -> None:
+        """
+        Do not return anything, modify arr in-place instead.
+        """
+        duplicates = 0
+        total_len = 0
+        edge_case_0 = False  #if True, then 0 is the last element, can't increase one more 0
+        n = len(arr)
+        for i, num in enumerate(arr):
+            if total_len == n:
+                break
+            total_len += 1
+            if num == 0 and total_len < n:
+                total_len += 1
+                duplicates += 1
+            elif num == 0 and total_len == n:
+                edge_case_0 = True
+
+        w = n - 1
+        for i in range(n - 1 - duplicates, -1, -1):
+            arr[w] = arr[i]
+            w -= 1
+            if arr[i] == 0 and edge_case_0 == True:
+                edge_case_0 = False
+                continue
+            if arr[i] == 0 and edge_case_0 == False:
+                arr[w] = arr[i]
+                w -= 1

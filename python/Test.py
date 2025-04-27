@@ -1,36 +1,40 @@
-from typing import List
-class Solution:
-    def threeSumClosest(self, nums: List[int], target: int) -> int:
-        #     i.
-        # -4,-1,1,2     sum = -1 + 1 + 2 = 2 < 1 , min_diff = 1 -(2) = -1, 2
-        #       l
-        #         r
-        sum = 0
-        min_diff = float('inf')
-        ans = float('inf')
-        nums.sort()
-        for i in range(len(nums) - 2):
-            print(i)
-            if i > 0 and nums[i] == nums[i - 1]: continue
-            l, r = i + 1, len(nums) - 1
-            print(i, l, r)
-            while l < r:
-                sum = nums[i] + nums[l] + nums[r]
-                if sum == target:
-                    return sum
-                else:
-                    print(sum)
-                    if abs(sum - target) < min_diff:
-                        min_diff = abs(sum - target)
-                        ans = sum
-                    if sum < target:
-                        l += 1
-                        while l < r and nums[l] == nums[l - 1]:
-                            l += 1
-                    else:
-                        r -= 1
-            return ans
+import random
+class RandomizedSet:
 
+    def __init__(self):
+        self.cache = {}  # {number : index in the arr}
+        self.arr = []
 
-nums = [-1,2,1,-4]
-Solution().threeSumClosest(nums, 1)
+    def insert(self, val: int) -> bool:
+        if val in self.cache:
+            return False
+        self.cache[val] = len(self.arr)
+        self.arr.append(val)
+        return True
+
+    def remove(self, val: int) -> bool:
+        if val not in self.cache: return False
+        # [1, 2, 3, 0 ]  => [1, 0, 3] . pop 0
+        # cache = {1: 0, 2: 1, 3: 2, 0: 3}
+        # remove 2
+        idx = self.cache[val]
+        del self.cache[val]
+        self.arr[idx] = self.arr[-1]  # assign last value of the arr to the position to be deleted
+        self.cache[self.arr[-1]] = idx  # update cache, poiting last value to the position to be deletd
+        self.arr.pop()
+
+        return True
+
+    def getRandom(self) -> int:
+        return random.choice(self.arr)
+
+# Your RandomizedSet object will be instantiated and called as such:
+# obj = RandomizedSet()
+# param_1 = obj.insert(val)
+# param_2 = obj.remove(val)
+# param_3 = obj.getRandom()
+
+obj = RandomizedSet()
+obj.insert(0)
+obj.remove(0)
+obj.insert(0)
