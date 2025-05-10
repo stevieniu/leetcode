@@ -1,40 +1,44 @@
+from typing import List
+import  collections
+import string
+from typing import Optional
+
+from math import sqrt
 import random
-class RandomizedSet:
+class Solution:
 
-    def __init__(self):
-        self.cache = {}  # {number : index in the arr}
-        self.arr = []
+    def __init__(self, w: List[int]):
+        # w = [1, 3, 4] => [1, 4, 8]  random number between[0, 8]
+        # say rand = 6, it falls into [4 + 1, 8]. return index 2
+        # if rand = 2, it falls into [1 + 1, 3], return index 1
+        self.w = []
+        total = 0
+        for num in w:
+            total  += num
+            self.w.append(total)
+        self.total = total
 
-    def insert(self, val: int) -> bool:
-        if val in self.cache:
-            return False
-        self.cache[val] = len(self.arr)
-        self.arr.append(val)
-        return True
+    def pickIndex(self) -> int:
+        # ran = random.randint(1, self.total)
+        ran = 6
+        l, r = 0, len(self.w)
+        #       r
+        # 1, 4, 8
+        #       l
+        #    m
+        # m = (0 + 2) / 2 = 1
+        # ran = 7
+        while l < r:
+            m = (l + r) // 2
+            if self.w[m] < ran:
+                l += 1
+            else:
+                r = m
+        return l
 
-    def remove(self, val: int) -> bool:
-        if val not in self.cache: return False
-        # [1, 2, 3, 0 ]  => [1, 0, 3] . pop 0
-        # cache = {1: 0, 2: 1, 3: 2, 0: 3}
-        # remove 2
-        idx = self.cache[val]
-        del self.cache[val]
-        self.arr[idx] = self.arr[-1]  # assign last value of the arr to the position to be deleted
-        self.cache[self.arr[-1]] = idx  # update cache, poiting last value to the position to be deletd
-        self.arr.pop()
 
-        return True
-
-    def getRandom(self) -> int:
-        return random.choice(self.arr)
-
-# Your RandomizedSet object will be instantiated and called as such:
-# obj = RandomizedSet()
-# param_1 = obj.insert(val)
-# param_2 = obj.remove(val)
-# param_3 = obj.getRandom()
-
-obj = RandomizedSet()
-obj.insert(0)
-obj.remove(0)
-obj.insert(0)
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(w)
+# param_1 = obj.pickIndex()
+s = Solution([1, 3, 6])
+s.pickIndex()

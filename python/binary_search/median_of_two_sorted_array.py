@@ -37,7 +37,6 @@ class Solution:
             return self.findMedianSortedArrays(nums2, nums1)
 
         total_half = (len(nums1) + len(nums2) + 1) // 2
-        half_1 = (len(nums1) + 1) // 2
         l, r = 0, len(nums1)
 
         # to find :left_max_1 <= right_min_2 and left_max_2 <= right_min_1

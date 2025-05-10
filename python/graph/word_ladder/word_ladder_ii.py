@@ -39,6 +39,10 @@ import collections
 import string
 
 class Solution:
+    # from end to begin
+    # ab <- ad | beginWord = ab, endWord = ad, when do dfs from endword, we don't need to traverse ac-> ab, save time
+    #    \ ac
+    #
     def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
 
         def dfs(curr_word):
@@ -51,6 +55,7 @@ class Solution:
                 path.pop()
 
         dist_from_begin = {beginWord: 0}  # word: distance  from beginWord
+        # Storing Predecessor Words: This avoids the need to compute all transformations again during the DFS phase, as we can directly access all valid previous words.
         node_predessors = collections.defaultdict(
             set)  # direct predessors of the current node {currNode: {pred1, pred2...}}
         word_set = set(wordList)
@@ -79,7 +84,6 @@ class Solution:
                             dist_from_begin[new_word] = step
                             if new_word == endWord:
                                 found = True
-                print()
 
         ans = []
         path = [endWord]
@@ -87,8 +91,58 @@ class Solution:
             dfs(endWord)
         return ans
 
+    # from begin to end, TLE
+    #
+    # e.g. ab -> ac  | beginWord = ab, endWord = ad, when do dfs, ab -> ac, not valid, go back, ab -> ad, done. so, ab -> ac waste of time
+    #         \ ad
+    #
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        word_set = set(wordList)
+        if endWord not in word_set: return []
+
+        word_set.discard(beginWord)
+        q = collections.deque([beginWord])
+        g = collections.defaultdict(set)
+        dist_from_begin = {beginWord: 0}
+        found = False
+        step = 0
+        while q:
+            step += 1
+            for _ in range(len(q)):
+                word = q.popleft()
+                for i in range(len(word)):
+                    for c in string.ascii_lowercase:
+                        new_word = word[:i] + c + word[i + 1:]
+                        if dist_from_begin.get(new_word, 0) == step: # all words on the level : step - 1 will be add to g => g[word1] = new_word, g[word2] = new_word, ...
+                            g[word].add(new_word)
+
+                        if new_word in word_set:
+                            g[word].add(new_word)
+                            word_set.remove(new_word)
+                            q.append(new_word)
+                            dist_from_begin[new_word] = step
+                            if new_word == endWord:
+                                found = True
+
+        def dfs(word):
+            if word == endWord:
+                res.append(path[:])
+                return
+
+            for nei in g[word]:
+                path.append(nei)
+                dfs(nei)
+                path.pop()
+
+        res = []
+        path = [beginWord]
+        if found:
+            dfs(beginWord)
+
+        return res
+
 
 beginWord = 'hit'
 endWord = 'cog'
-wordList = ["hot","dot","dog","lot","log","cog"]
+wordList = ["hot","dot","dog","lot","log","cog", "not", "nog"]
 Solution().findLadders(beginWord, endWord, wordList)

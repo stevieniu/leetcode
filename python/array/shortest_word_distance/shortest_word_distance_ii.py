@@ -49,7 +49,6 @@ class WordDistance:
         n = len(self.wordsDict)
         min_dist = n
         i1 = i2 = 0
-        print(i1, i2)
         while i1 < len(id1_lst) and i2 < len(id2_lst):
             min_dist = min(min_dist, abs(id1_lst[i1] - id2_lst[i2]))
             if id1_lst[i1] < id2_lst[i2]:

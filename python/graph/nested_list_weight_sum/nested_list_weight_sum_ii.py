@@ -101,11 +101,21 @@ class Solution:
         return dfs(nestedList, max_depth)
 
     def get_max_level(self, nestedList):  # max level for nestedList
-        depth = 0
+        # [[2, 3], 4, [1, [3, 2, [5]]], 1]
+        #                   0
+        #             /   /  \    \
+        #  1        0     4   0    0
+        #        /  /        / /    \
+        #  2   2   3        1  0      1
+        #                      / \ \
+        # 3                  3   2  0
+        #                            \
+        # 4                           5
+        depth = 1
         for lst in nestedList:
-            if not lst.isInteger():  # it is nested list
-                depth = max(depth, self.get_max_level(lst.getList()))
-        return depth + 1  # plus one is because to include the current depth
+            if not lst.isInteger():
+                depth = max(depth, self.get_max_level(lst.getList()) + 1)  # max depth is the max of all depths of all sub nested list
+        return depth
 
 
     # bfs
