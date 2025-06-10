@@ -48,3 +48,22 @@ class Solution:
 
         return n == 0
 
+    def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:
+
+        if n == 0: return True
+        for i in range(len(flowerbed)):
+            # 0, 0 or 0
+            if flowerbed[i] == 1: continue
+            if i == 0:
+                if flowerbed[i] == 0 and (i + 1 == len(flowerbed) or flowerbed[i + 1] == 0):
+                    n -= 1
+                    flowerbed[i] = 1
+                    if n == 0: break
+            else:
+                # ... 0, 0, 0,... or ... 0, 0
+                if flowerbed[i - 1] == 0 and (i + 1 == len(flowerbed) or flowerbed[i + 1] == 0):
+                    n -= 1
+                    flowerbed[i] = 1
+                    if n == 0: break
+        print(n)
+        return n == 0

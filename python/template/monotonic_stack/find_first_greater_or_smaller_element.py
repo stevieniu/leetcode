@@ -1,10 +1,10 @@
 # arr[a1, a2, a3...] find first element that is greater than current element, for each element in the array
-# we use decreasing monotonic stack_queue to implement
+# we use decreasing monotonic_stack stack_queue to implement
 # if use native way, to compare current num with every number following, time complexity is O(n^2)
 # here is what we do:
 # create a array nge = [-1] * len(numbers), store the first index whose number is greater than the current number, intialize with -1 for all positions
 # e.g. nge[2] = 4, means : the first index whose number is greater or equal to the number at index 2, is at index 4
-# use monotonic decreasing stack_queue, if the stack_queue is empty, simply push the current index to the stack_queue
+# use monotonic_stack decreasing stack_queue, if the stack_queue is empty, simply push the current index to the stack_queue
 # if the stack_queue is not empty and the current number is greater than the number whose index is the top of the stack_queue,
 # then, the current index is the first index whose number is greater than the number whose index is the top of the stack_queue
 # i.e. set  nge[stack_queue[-1]] = curr_idx
@@ -19,7 +19,7 @@ def find_first_greater_element_idx(arr):
         stack_desc.append(i)
     print(nge)
 
-# similar logic for find_first_greater_element_idx, instead of using descreasing monotoic stack_queue, we use increasing monotonic stack_queue this time
+# similar logic for find_first_greater_element_idx, instead of using descreasing monotoic stack_queue, we use increasing monotonic_stack stack_queue this time
 def find_first_smaller_element_idx(arr):
     stack_asc = [] # store index for the current index
     lne = [-1] * len(arr)

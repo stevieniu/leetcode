@@ -44,8 +44,8 @@ class Solution:
     def minCost(self, nums: List[int], costs: List[int]) -> int:
         stack_inc, stack_dec = [], []  # store indices before current index i
         nge, nle = [-1] * len(nums), [-1] * len(nums)
-        # use descreasing monotonic stack_queue to look for the first greater element than the current number
-        # use increasing monotonic stack_queue to look for the first smaller element than the current number
+        # use descreasing monotonic_stack stack_queue to look for the first greater element than the current number
+        # use increasing monotonic_stack stack_queue to look for the first smaller element than the current number
         for i, num in enumerate(nums):
             while stack_dec and num >= nums[stack_dec[-1]]:
                 nge[stack_dec.pop()] = i

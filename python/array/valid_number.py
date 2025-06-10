@@ -60,7 +60,7 @@ class Solution:
                 elif c == '.':
                     # 1). first index .1 , 2) right after digit 1. 3)cannot be after e/E 12E2.1 x
                     # 4) there is only 1 dot
-                    if seen_dot or i > 0 and seen_exp: return False
+                    if seen_dot or seen_exp: return False
                     seen_dot = True
                 elif c in 'Ee':  # 1) cannot be the first index, must be after digit 2) there is only one E/e
                     if seen_exp or not seen_digit: return False

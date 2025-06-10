@@ -55,16 +55,13 @@ class Node:
 class Solution:
     def lowestCommonAncestor(self, p: 'Node', q: 'Node') -> 'Node':
         path = set()
-        lca = None
         while p:
             path.add(p)
             p = p.parent
         while q:
             if q in path:
                 return q
-            else:
-                path.add(q)
-                q = q.parent
+            q = q.parent
 
     def lowestCommonAncestor(self, p: 'Node', q: 'Node') -> 'Node':
         pc, qc = p, q

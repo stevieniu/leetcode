@@ -34,8 +34,6 @@ records1 = [
   ["Joe",      "exit"], [Joe,]
   ["Joe",      "exit"]
 ]
-
-
 exit. enter
 Expected output: ["Steve", "Curtis", "Paul", "Joe"], ["Martha", "Pauline", "Curtis", "Joe"]
 
@@ -100,7 +98,23 @@ def logging(records: List[List[str]]) -> List[List[str]]:
 
     return [list(collections1), list(collections2)]
 
-
+def logging(records: List[List[str]]) -> List[List[str]]:
+    room = set()
+    enter = set()
+    exit = set()
+    for name, type in records:
+        if type == 'enter':
+            if name not in  room:
+                room.add(name)
+            else:
+                enter.add(name)
+        else:
+            if name not in room:
+                exit.add(name)
+            else:
+                room.remove(name)
+    enter.update(room)
+    return [list(enter), list(exit)]
 records1 = [
     ["Paul", "enter"],
     ["Pauline", "exit"],
@@ -143,5 +157,4 @@ records4 = [
     ["Paul", "enter"],
     ["Raj", "enter"],
 ]
-
-print(logging(records4))
+print(logging(records3))

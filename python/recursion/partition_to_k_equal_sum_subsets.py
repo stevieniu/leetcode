@@ -52,6 +52,6 @@ class Solution:
             return False
         return dfs(0, k,0, 0)
 
-nums = [2, 2, 2, 2,]
+nums = [4,3,2,3,5,2,1]
 k = 4
 Solution().canPartitionKSubsets(nums, k)
