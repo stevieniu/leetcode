@@ -66,3 +66,18 @@ class Solution:
         total = 0
         dfs(root, [])
         return total
+
+    def sumNumbers(self, root: Optional[TreeNode]) -> int:
+        numbers = []
+
+        def dfs(node, num):
+            if not node:
+                return
+            if not node.left and not node.right:
+                numbers.append(10 * num + int(node.val))
+            dfs(node.left, 10 * num + int(node.val))
+
+            dfs(node.right, 10 * num + int(node.val))
+
+        dfs(root, 0)
+        return sum(numbers)

@@ -30,25 +30,26 @@ import math
 class Solution:
     def reverse(self, x: int) -> int:
         MIN = -2 ** 31
-        is_negative = x < 0
+        is_negative = False
+        if x < 0:
+            is_negative = True
 
-        if not is_negative: x = -x
-        res = 0
-        while int(x / 10):
-            # -123
-            res = res * 10 + int(math.fmod(x, 10))
-            x = int(x / 10)
-
-        if res < int(MIN / 10): return 0
-
-        residule = int(math.fmod(x, 10))
-        if res == int(MIN / 10) and not is_negative and residule >= 8:
-            return 0
-        elif res == int(MIN / 10) and is_negative and residule > 8:
-            return 0
-        else:
-            res = 10 * res + residule
-            return res if is_negative else -res
+        x = -abs(x)  # convert to negative
+        # -123
+        # 3
+        ans = 0
+        while x:
+            digit = int(math.fmod(x, 10))
+            if ans == int(MIN / 10) and is_negative and digit > 8:
+                return 0
+            elif ans == int(MIN / 10) and not is_negative and digit >= 8:
+                return 0
+            elif ans < int(MIN / 10):
+                return 0
+            else:
+                ans = ans * 10 + digit
+                x = int(x / 10)
+        return ans if is_negative else -ans
 
 
 

@@ -48,8 +48,30 @@ class Solution:
         maxArea = 0
         for i in range(m):
             for j in range(n):
-                area = [0]
                 if grid[i][j] == 1:
                     area = dfs(i, j)
                     maxArea = max(maxArea, area)
         return maxArea
+
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        maxx = 0
+        ROW, COL = len(grid), len(grid[0])
+        DIRECTIONS = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+
+        def dfs(i, j):
+            nonlocal area
+            if i < 0 or i == ROW or j < 0 or j == COL or grid[i][j] == 0:
+                return 0
+            area += 1
+            grid[i][j] = 0
+            for dr, dc in DIRECTIONS:
+                new_i, new_j = i + dr, j + dc
+                dfs(new_i, new_j)
+
+        for i in range(ROW):
+            for j in range(COL):
+                if grid[i][j] == 1:
+                    area = 0
+                    dfs(i, j)
+                    maxx = max(maxx, area)
+        return maxx

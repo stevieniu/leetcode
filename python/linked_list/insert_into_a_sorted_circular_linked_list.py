@@ -38,13 +38,11 @@ The number of nodes in the list is in the range [0, 5 * 104].
 
 """
 
-"""
 # Definition for a Node.
 class Node:
     def __init__(self, val=None, next=None):
         self.val = val
         self.next = next
-"""
 
 
 class Solution:

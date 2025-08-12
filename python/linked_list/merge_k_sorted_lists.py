@@ -47,94 +47,6 @@ class ListNode:
         self.val = val
         self.next = next
 class Solution:
-    # def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-    #     def merge_2_sorted_lists(list1, list2):
-    #         if not list1 or not list2:
-    #             return list1 if not list2 else list2
-    #         head = ListNode(0)
-    #         cur = head
-    #         while list1 or list2:
-    #             if list1 and list2:
-    #                 if list1.val < list2.val:
-    #                     cur.next = list1
-    #                     list1 = list1.next
-    #                     cur = cur.next
-    #                 else:
-    #                     cur.next = list2
-    #                     cur = cur.next
-    #                     list2 = list2.next
-    #             else:
-    #                 cur.next = list1 if list1 else list2
-    #                 break
-    #         return head.next
-
-    #     if not lists or len(lists) == 0:
-    #         return None
-
-    #     while len(lists) > 1:
-    #         merged_lists = []
-    #         for i in range(0, len(lists), 2):
-    #             l1 = lists[i]
-    #             l2 = lists[i + 1] if i + 1 < len(lists) else None
-    #             merged_lists.append(merge_2_sorted_lists(l1, l2))
-    #         lists = merged_lists
-    #     return lists[0]
-    # def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-    #     if not lists:
-    #         return None
-    #     if len(lists) == 1:
-    #         return lists[0]
-    #     def merge_two_lists(l1, l2):
-    #         if not l1:
-    #             return l2
-    #         elif not l2:
-    #             return l1
-    #         elif l1.val < l2.val:
-    #             l1.next = merge_two_lists(l1.next, l2)
-    #             return l1
-    #         else:
-    #             l2.next = merge_two_lists(l1, l2.next)
-    #             return l2
-    #     l = lists[0]
-    #     for i in range(1, len(lists)):
-    #         l = merge_two_lists(l, lists[i])
-    #     return l
-
-    # def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-    #     if not lists:
-    #         return None
-
-    #     def mergeLists(l1, l2):
-    #         if not l1:
-    #             return l2
-    #         elif not l2:
-    #             return l1
-
-    #         curr = dummy = ListNode(0)
-
-    #         while l1 or l2:
-    #             if l1 and l2:
-    #                 if l1.val < l2.val:
-    #                     curr.next = l1
-    #                     l1 = l1.next
-    #                 else:
-    #                     curr.next = l2
-    #                     l2 = l2.next
-    #             elif l1:
-    #                 curr.next = l1
-    #                 break
-    #             else:
-    #                 curr.next = l2
-    #                 break
-    #             curr = curr.next
-    #         return dummy.next
-
-    #     k = len(lists)
-    #     l = lists[0]
-    #     for i in range(1, k):
-    #         l = mergeLists(l, lists[i])
-    #     return l
-
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         if not lists:
             return None
@@ -235,4 +147,36 @@ class Solution:
             if node:
                 heapq.heappush(min_heap, (node.val, i, node))
         return dummy.next
+
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        def merge(l1, l2):
+            dummy = cur = ListNode()
+            while l1 or l2:
+                if l1 and l2:
+                    if l1.val < l2.val:
+                        cur.next = ListNode(l1.val)
+                        l1 = l1.next
+                    else:
+                        cur.next = ListNode(l2.val)
+                        l2 = l2.next
+                elif l1:
+                    cur.next = ListNode(l1.val)
+                    l1 = l1.next
+                else:
+                    cur.next = ListNode(l2.val)
+                    l2 = l2.next
+                cur = cur.next
+            return dummy.next
+
+        if not lists:
+            return None
+        elif len(lists) == 1:
+            return lists[0]
+        elif len(lists) == 2:
+            return merge(lists[0], lists[1])
+        else:
+            m = len(lists) // 2
+            l1 = self.mergeKLists(lists[:m])
+            l2 = self.mergeKLists(lists[m:])
+            return merge(l1, l2)
 

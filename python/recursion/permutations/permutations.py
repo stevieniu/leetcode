@@ -26,7 +26,7 @@ Constraints:
 -10 <= nums[i] <= 10
 All the integers of nums are unique.
 """
-
+from typing import List
 
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:

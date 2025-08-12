@@ -34,6 +34,7 @@ Constraints:
 All elements of candidates are distinct.
 1 <= target <= 40
 """
+from typing import List
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         n = len(candidates)

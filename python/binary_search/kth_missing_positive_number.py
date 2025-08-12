@@ -67,7 +67,8 @@ class Solution:
                 r = m - 1
         # now l = r + 1, kth missing number is between arr[right] and arr[left]
         # number of missing numbers for r is arr[r] - (r + 1)
-        # ans = arr[r] + k - (arr[r] - (r + 1)) = k + r + 1 = k + l
+        # ans = arr[r] + more => more = k - missing number at r = k - (arr[r] - [r + 1])   =>
+        #     = arr[r] + (  k - (arr[r] - (r + 1))  ) = k + r + 1 = k + l
         return k + l
 
 

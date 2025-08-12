@@ -98,7 +98,6 @@ class Solution:
     # dfs
     def depthSum(self, nestedList: List[NestedInteger]) -> int:
         # [[1,1],2,[1,1]]
-        ans = 0
 
         def dfs(nestedList, depth):  # weight of node with depth
             ans = 0
